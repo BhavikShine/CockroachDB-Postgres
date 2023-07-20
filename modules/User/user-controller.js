@@ -6,7 +6,12 @@ exports.userRegister = catchAsyncError(async (req, res) => {
   try {
     const userData = req.body;
 
-    if (!userData) {
+    if (
+      !req.body.name &&
+      !req.body.email &&
+      !req.body.phone &&
+      !req.body.address
+    ) {
       return res.status(422).json({ error: "Please add all the fields" });
     }
 
@@ -37,11 +42,11 @@ exports.downloadCsv = catchAsyncError(async (req, res) => {
   try {
     const users = await User.findAll();
 
-    const fields = ['id', 'name', 'email', 'phone', 'address'];
+    const fields = ["id", "name", "email", "phone", "address"];
 
     const csvData = generateCsvData(users, fields);
 
-    downloadCsvFile(res, csvData, 'users.csv');
+    downloadCsvFile(res, csvData, "users.csv");
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
   }

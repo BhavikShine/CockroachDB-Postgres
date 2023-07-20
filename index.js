@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const db = require("./config/dbConnection.js");
 const userRoutes = require("./modules/User/user-routes.js");
+const cors = require("cors");
 
 dotenv.config();
 
@@ -24,6 +25,10 @@ db.sync()
   });
 
 app.use(express.json());
+
+
+// Enable CORS
+app.use(cors());
 app.use("/api/v1", userRoutes);
 
 const port = process.env.PORT || 8000;
